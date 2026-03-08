@@ -115,6 +115,34 @@ button:hover {
   position: relative;
   z-index: 1;
 }
+
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(3px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 999;
+}
+
+.popup-content {
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 8px;
+  font-size: 16px;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.popup.show {
+  display: flex;
+  opacity: 1;
+}
 </style>
 </head>
 
@@ -137,12 +165,22 @@ button:hover {
     <button type="submit">SUBMIT</button>
   </form>
 
+  <p style="font-size:12px; margin-top:12px; color:#666;">
+    By subscribing, you agree to receive updates from Missa.
+  </p>
+
   <div class="login">🔒 Login with Password</div>
 
 </div>
 
 <div class="footer">
-  This Store will be powered by Shopify
+  Launching Soon Insha`Allah
+</div>
+
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <p id="popup-message"></p>
+  </div>
 </div>
 
 <script>
@@ -157,6 +195,7 @@ form.addEventListener("submit", e => {
   if (document.getElementById("website").value !== "") return;
 
   button.disabled = true;
+  button.textContent = "Submitting...";
 
   fetch(scriptURL, {
     method: "POST",
@@ -166,18 +205,39 @@ form.addEventListener("submit", e => {
   })
   .then(res => res.json())
   .then(data => {
+    const popup = document.getElementById("popup");
+    const message = document.getElementById("popup-message");
+
     if (data.result === "duplicate") {
-      alert("You're already on the list ✨");
+      message.textContent = "You're already on the list ✨";
+    } else if (data.result === "success") {
+      message.textContent = "You're on the list ✨";
     } else {
-      alert("You're on the list ✨");
+      message.textContent = "Something went wrong";
     }
+
+    popup.classList.add("show");
     form.reset();
     button.disabled = false;
+    button.textContent = "SUBMIT";
+
+    setTimeout(() => {
+      popup.classList.remove("show");
+    }, 2500);
   })
   .catch(() => {
-    alert("Something went wrong");
-    button.disabled = false;
-  });
+  const popup = document.getElementById("popup");
+  const message = document.getElementById("popup-message");
+
+  message.textContent = "Something went wrong. Please try again.";
+  popup.classList.add("show");
+  button.disabled = false;
+  button.textContent = "SUBMIT";
+
+  setTimeout(() => {
+    popup.classList.remove("show");
+  }, 2500);
+});
 });
 </script>
 
