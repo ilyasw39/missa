@@ -133,6 +133,7 @@ button:hover {
 
   <form id="emailForm" class="form-wrapper">
     <input type="email" id="email" placeholder="EMAIL ADDRESS" required>
+    <input type="text" id="website" style="display:none">
     <button type="submit">SUBMIT</button>
   </form>
 
@@ -147,9 +148,15 @@ button:hover {
 <script>
 const scriptURL = "https://script.google.com/macros/s/AKfycbyNu9_BvCuEoAxxp3HuAsZIBIrl6-ppi3XiVvKeCALlTwCeQYRcivMkto0pPkoSeRqw0Q/exec";
 const form = document.getElementById("emailForm");
+const button = form.querySelector("button");
 
 form.addEventListener("submit", e => {
   e.preventDefault();
+
+  // Honeypot spam protection
+  if (document.getElementById("website").value !== "") return;
+
+  button.disabled = true;
 
   fetch(scriptURL, {
     method: "POST",
@@ -157,11 +164,20 @@ form.addEventListener("submit", e => {
       email: document.getElementById("email").value
     })
   })
-  .then(() => {
-    alert("You're on the list!");
+  .then(res => res.json())
+  .then(data => {
+    if (data.result === "duplicate") {
+      alert("You're already on the list ✨");
+    } else {
+      alert("You're on the list ✨");
+    }
     form.reset();
+    button.disabled = false;
   })
-  .catch(() => alert("Something went wrong"));
+  .catch(() => {
+    alert("Something went wrong");
+    button.disabled = false;
+  });
 });
 </script>
 
