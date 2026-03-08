@@ -15,85 +15,105 @@
 }
 
 body {
-  background: #f4f4f4;
+  background: #f6f1e8;
   font-family: 'Inter', sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   align-items: center;
   text-align: center;
-  color: #111;
+  color: #1a1a1a;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Stronger but still elegant prayer arch pattern */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='400' height='600' viewBox='0 0 400 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M200 0 Q330 250 200 500 Q70 250 200 0 Z' fill='none' stroke='%231a1a1a' stroke-opacity='0.08' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 360px 540px;
+  z-index: 0;
 }
 
 .container {
+  position: relative;
+  z-index: 1;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   max-width: 500px;
-  padding: 20px;
+  padding: 50px 20px;
 }
 
 .logo {
-  width: 140px;
-  margin-bottom: 10px;
+  width: 170px;
+  margin-bottom: 25px;
 }
 
 .brand {
   font-family: 'Playfair Display', serif;
-  letter-spacing: 3px;
-  font-size: 16px;
-  margin-bottom: 40px;
+  letter-spacing: 6px;
+  font-size: 24px;
+  margin-bottom: 55px;
 }
 
 .tagline {
   font-size: 18px;
-  margin-bottom: 30px;
-  line-height: 1.5;
+  margin-bottom: 35px;
+  line-height: 1.6;
+  max-width: 420px;
 }
 
 .form-wrapper {
   display: flex;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
 }
 
 input {
   flex: 1;
-  padding: 14px;
-  border: 1px solid #000;
+  padding: 15px;
+  border: 1px solid #1a1a1a;
   border-right: none;
-  font-size: 14px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  background: #ffffff; /* solid white like you wanted */
   outline: none;
-  background: white;
 }
 
 button {
-  padding: 14px 20px;
-  background: black;
+  padding: 15px 24px;
+  background: #1a1a1a;
   color: white;
-  border: 1px solid black;
-  font-size: 14px;
+  border: 1px solid #1a1a1a;
+  font-size: 13px;
+  letter-spacing: 2px;
   cursor: pointer;
-  letter-spacing: 1px;
+  transition: opacity 0.3s ease;
 }
 
 button:hover {
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .login {
-  margin-top: 20px;
+  margin-top: 25px;
   font-size: 14px;
-  color: #333;
+  color: #444;
   cursor: pointer;
 }
 
 .footer {
-  padding: 30px;
+  padding: 35px;
   font-size: 14px;
-  color: #555;
+  color: #666;
+  position: relative;
+  z-index: 1;
 }
 </style>
 </head>
@@ -125,7 +145,7 @@ button:hover {
 </div>
 
 <script>
-const scriptURL = "YOUR_GOOGLE_SCRIPT_URL";
+const scriptURL = "https://script.google.com/macros/s/AKfycbyNu9_BvCuEoAxxp3HuAsZIBIrl6-ppi3XiVvKeCALlTwCeQYRcivMkto0pPkoSeRqw0Q/exec";
 const form = document.getElementById("emailForm");
 
 form.addEventListener("submit", e => {
